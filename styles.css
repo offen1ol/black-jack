@@ -9,7 +9,7 @@ body {
 #dealer-cards img,
 #player-cards img {
     width: 125px;
-    /* height: 175px; in tut */
+    height: 181.5px;
     margin: 1px; 
 }
 
