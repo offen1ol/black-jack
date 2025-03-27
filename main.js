@@ -78,16 +78,21 @@ function startGame() {
 }
 
 function getValue(card) {;
+    // Get card number value
+    // Necessary for value 10 to be correctly counted for
+    let data = card.split('-'); // '10-C' => ['10', 'C']
+    let value =  data[0];
+
     // check if it's an A, J, Q, or K
-    if (isNaN(card[0])) {
-        if (card[0] == 'A') {
+    if (isNaN(value)) {
+        if (value == 'A') {
             return 11;
         }
         return 10; // J, Q, K
     }
 
     // else return first index of card value 
-    return parseInt(card[0]);
+    return parseInt(value);
 }
 
 function checkAce(card) {
