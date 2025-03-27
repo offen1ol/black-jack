@@ -12,7 +12,7 @@ let yourSum = 0;
 let yourAceCount = 0;
 
 let hidden; 
-let deck = [];
+let deck;
 
 let canHit = true; // checks if you are able to use the hit button or not
 
@@ -25,6 +25,9 @@ window.onload = function() {
 function buildDeck() {
     let values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
     let types = ['C', 'H', 'S', 'D'];
+
+    // initialize empty array for deck
+    deck = [];
 
     for (let i = 0; i  < values.length; i++) {
         for (let j = 0; j < types.length; j++) {
@@ -45,15 +48,19 @@ function shuffleDeck() {
 
 function startGame() {
     // dealer's hidden card
+    let cardImg = document.createElement('img');
+    cardImg.id = 'hidden'; 
     hidden = deck.pop();
+    cardImg.src = './cards/BACK.png';
     dealerSum += getValue(hidden);
     dealerAceCount += checkAce(hidden);
+    document.getElementById('dealer-cards').append(cardImg);
     console.log(hidden);
     console.log(dealerSum);
     console.log(dealerAceCount);
 
     // dealer's 2nd card
-    let cardImg = document.createElement('img');                // create a card img tag
+    cardImg = document.createElement('img');                    // create a card img tag
     let card = deck.pop();                                      // removes card from deck
     cardImg.src = './cards/' + card + '.png';                   // finds card in cards/ directory
     dealerSum += getValue(card);                                // adds card value to sum
@@ -162,6 +169,9 @@ function stand() {
     document.getElementById('player-sum').innerText = yourSum;
     document.getElementById('results').innerText = message;
 
+    // show play-again button and listen for user interaction 
+    document.getElementById('play-again').style.display = 'inline';
+    document.getElementById('play-again').addEventListener('click', playAgain);
 }
 
 function reduceAce(playerSum, playerAceCount) {
@@ -171,4 +181,41 @@ function reduceAce(playerSum, playerAceCount) {
     }
 
     return playerSum;
+}
+
+function playAgain() {
+    // clear cards from html
+    let dealerCards = document.getElementById('dealer-cards');
+    let yourCards = document.getElementById('player-cards');
+    clearCards(dealerCards);
+    clearCards(yourCards);
+
+    // clear scores sums and result message
+    document.getElementById('dealer-sum').innerText = '';
+    document.getElementById('player-sum').innerText = '';
+    document.getElementById('results').innerText = '';
+    
+    // reset sums and ace counts
+    dealerSum = 0;
+    dealerAceCount = 0;
+    yourSum = 0;
+    yourAceCount = 0;
+
+    // enable canHit button
+    canHit = true;
+
+    // hide play-again button
+    document.getElementById('play-again').style.display = 'none';
+
+    // rebuild and shuffle deck
+    buildDeck();
+    shuffleDeck();
+
+    startGame();
+}
+
+function clearCards(playerCards) {
+    while (playerCards.hasChildNodes()) {
+        playerCards.removeChild(playerCards.firstChild);
+    }
 }

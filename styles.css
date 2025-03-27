@@ -13,9 +13,21 @@ body {
     margin: 1px; 
 }
 
-#hit, #stand {
+#hit, 
+#stand,
+#play-again {
     margin-top: 20px;
     width: 100px;
     height: 50px;
     font-size: 20px;
+}
+
+#play-again {
+    margin-top: 0;
+    width: 150px;
+    display: none;
+}
+
+#results {
+    font-size: 25px;
 }
