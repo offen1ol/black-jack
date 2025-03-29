@@ -5,6 +5,8 @@
 // change the look of it more?
 // soft and hard values
 
+// BUG: It doesn't disable stand button when a natural blackjack is detected for some reason
+
 let dealerSum = 0;
 let dealerAceCount = 0;
 
@@ -119,14 +121,17 @@ function checkNaturalBlackjack() {
 
     if (dealerSum == 21 && yourSum != 21) {
         message = 'Natural Ace! Dealer wins.';
+        disableButtons();
         results(message);
     }
     else if (yourSum == 21 && dealerSum != 21) {
         message = 'Natural Ace! You win.'
+        disableButtons();
         results(message);
     }
     else if (yourSum == 21 && dealerSum == 21) {
         message = "Tie!";
+        disableButtons();
         results(message);
     }
 }
@@ -149,6 +154,11 @@ function hit() {
 }
 
 function stand() {
+
+    if(!canStand) {
+        return;
+    }
+
     // disable hit and stand buttons
     disableButtons();
     // reveal hidden card
@@ -198,7 +208,7 @@ function reduceAce(playerSum, playerAceCount) {
 }
 
 function results(message) {
-    disableButtons();
+    // disableButtons();
     revealHidden();
     
     document.getElementById('dealer-sum').innerText = dealerSum;
