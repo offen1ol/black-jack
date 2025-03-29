@@ -31,3 +31,43 @@ body {
 #results {
     font-size: 25px;
 }
+
+/* Hidden Card Flip Animation */
+#card-container * {
+    margin: 0;
+}
+
+#card-container {
+    height: 181.5px;
+    width: 125px;
+    margin: 1px; 
+    display: inline-block;
+}
+
+#hidden-card {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    transition: transform 500ms;
+    transform-style: preserve-3d;
+}
+
+#hidden-front {
+    transform: rotateY(180deg);
+}
+
+#hidden-front,
+#hidden-back {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    backface-visibility: hidden;
+}
+
+/* Dealer Cards Flexbox */
+
+#dealer-cards-container {
+    display: flex;
+    justify-content: center;
+}

@@ -49,12 +49,13 @@ function shuffleDeck() {
 function startGame() {
     // dealer's hidden card
     let cardImg = document.createElement('img');
-    cardImg.id = 'hidden'; 
+    cardImg.id = 'hidden-front'; 
     hidden = deck.pop();
-    cardImg.src = './cards/BACK.png';
+    cardImg.src = './cards/' + hidden + '.png';
     dealerSum += getValue(hidden);
     dealerAceCount += checkAce(hidden);
-    document.getElementById('dealer-cards').append(cardImg);
+    document.getElementById('hidden-card').prepend(cardImg);
+
     console.log(hidden);
     console.log(dealerSum);
     console.log(dealerAceCount);
@@ -205,7 +206,11 @@ function results(message) {
         
     // show play-again button and listen for user interaction 
     document.getElementById('play-again').style.display = 'inline';
-    document.getElementById('play-again').addEventListener('click', playAgain);
+    document.getElementById('play-again').addEventListener('click', (e) => {
+        // function to delay playAgain function by 1 sec until the card is completely flipped back over before execution
+        document.getElementById('hidden-card').style.transform = '';
+        setTimeout(playAgain, 500);
+    });
 }
 
 function disableHit() {
@@ -215,15 +220,20 @@ function disableHit() {
 
 function revealHidden() {
     // reveal hidden card
-    document.getElementById('hidden').src = './cards/' + hidden + '.png' ;
+    document.getElementById('hidden-card').style.transform = 'rotateY(180deg)';
 }
 
 function playAgain() {
+    // return hidden card back to it's original position w/ back face up by reversing revealHidden()
+    document.getElementById('hidden-card').style.transform = '';
+
     // clear cards from html
     let dealerCards = document.getElementById('dealer-cards');
     let yourCards = document.getElementById('player-cards');
     clearCards(dealerCards);
     clearCards(yourCards);
+    document.getElementById('hidden-front').remove();
+ 
 
     // clear scores sums and result message
     document.getElementById('dealer-sum').innerText = '';
