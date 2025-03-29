@@ -15,6 +15,7 @@ let hidden;
 let deck;
 
 let canHit = true; // checks if you are able to use the hit button or not
+let canStand = true; // checks if you are able to use the stand button or not
 
 window.onload = function() {
     buildDeck();
@@ -148,8 +149,8 @@ function hit() {
 }
 
 function stand() {
-    // disable hit button 
-    disableHit();
+    // disable hit and stand buttons
+    disableButtons();
     // reveal hidden card
     revealHidden();
 
@@ -197,7 +198,7 @@ function reduceAce(playerSum, playerAceCount) {
 }
 
 function results(message) {
-    disableHit();
+    disableButtons();
     revealHidden();
     
     document.getElementById('dealer-sum').innerText = dealerSum;
@@ -213,9 +214,11 @@ function results(message) {
     });
 }
 
-function disableHit() {
+function disableButtons() {
     // disable hit button 
     canHit = false;
+    // disable stand button
+    canStand = false;
 }
 
 function revealHidden() {
@@ -246,8 +249,10 @@ function playAgain() {
     yourSum = 0;
     yourAceCount = 0;
 
-    // enable canHit button
+    // enable canHit and canStand buttons
     canHit = true;
+    canStand = true;
+
 
     // hide play-again button
     document.getElementById('play-again').style.display = 'none';
