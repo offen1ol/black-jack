@@ -1,5 +1,5 @@
 // split button if you have 2 aces
-// play again button - use same deck? 
+// use same deck? 
 // keep score between the 2 players
 // make the dealer hit - gotta change it from soft 16 and then get to a soft 17 at least
 // change the look of it more?
@@ -77,6 +77,9 @@ function startGame() {
         document.getElementById('player-cards').append(cardImg);
     }
 
+    // check if there is a natural blackjack from starting cards 
+    checkNaturalBlackjack();
+
     console.log(yourSum);
     console.log(yourAceCount);
 
@@ -109,6 +112,23 @@ function checkAce(card) {
     return 0; 
 }
 
+function checkNaturalBlackjack() {
+    let message = '';
+
+    if (dealerSum == 21 && yourSum != 21) {
+        message = 'Natural Ace! Dealer wins.';
+        results(message);
+    }
+    else if (yourSum == 21 && dealerSum != 21) {
+        message = 'Natural Ace! You win.'
+        results(message);
+    }
+    else if (yourSum == 21 && dealerSum == 21) {
+        message = "Tie!";
+        results(message);
+    }
+}
+
 function hit() {
     if (!canHit) {
         return;
@@ -127,14 +147,10 @@ function hit() {
 }
 
 function stand() {
-    // check if either players can reduce an Ace
-    dealerSum = reduceAce(dealerSum, dealerAceCount);
-    yourSum = reduceAce(yourSum, yourAceCount);
-
     // disable hit button 
-    canHit = false;
+    disableHit();
     // reveal hidden card
-    document.getElementById('hidden').src = './cards/' + hidden + '.png' ;
+    revealHidden();
 
     while(dealerSum < 17) {
         let cardImg = document.createElement('img');
@@ -145,6 +161,8 @@ function stand() {
         document.getElementById('dealer-cards').append(cardImg);
     }
 
+    // check if either players can reduce an Ace
+    yourSum = reduceAce(yourSum, yourAceCount);
     dealerSum = reduceAce(dealerSum, dealerAceCount);
 
     let message = '';
@@ -165,13 +183,7 @@ function stand() {
         message = 'You lose!'; 
     }
 
-    document.getElementById('dealer-sum').innerText = dealerSum;
-    document.getElementById('player-sum').innerText = yourSum;
-    document.getElementById('results').innerText = message;
-
-    // show play-again button and listen for user interaction 
-    document.getElementById('play-again').style.display = 'inline';
-    document.getElementById('play-again').addEventListener('click', playAgain);
+    results(message);
 }
 
 function reduceAce(playerSum, playerAceCount) {
@@ -181,6 +193,29 @@ function reduceAce(playerSum, playerAceCount) {
     }
 
     return playerSum;
+}
+
+function results(message) {
+    disableHit();
+    revealHidden();
+    
+    document.getElementById('dealer-sum').innerText = dealerSum;
+    document.getElementById('player-sum').innerText = yourSum;
+    document.getElementById('results').innerText = message;
+        
+    // show play-again button and listen for user interaction 
+    document.getElementById('play-again').style.display = 'inline';
+    document.getElementById('play-again').addEventListener('click', playAgain);
+}
+
+function disableHit() {
+    // disable hit button 
+    canHit = false;
+}
+
+function revealHidden() {
+    // reveal hidden card
+    document.getElementById('hidden').src = './cards/' + hidden + '.png' ;
 }
 
 function playAgain() {
