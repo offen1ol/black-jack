@@ -1,11 +1,8 @@
 // split button if you have 2 aces
 // use same deck? 
 // keep score between the 2 players
-// make the dealer hit - gotta change it from soft 16 and then get to a soft 17 at least
 // change the look of it more?
 // soft and hard values
-
-// BUG: It doesn't disable stand button when a natural blackjack is detected for some reason
 
 let dealerSum = 0;
 let dealerAceCount = 0;
@@ -141,6 +138,7 @@ function hit() {
         return;
     }
 
+    // add new card
     let cardImg = document.createElement('img');
     let card = deck.pop();
     cardImg.src = './cards/' + card + '.png';
@@ -154,7 +152,6 @@ function hit() {
 }
 
 function stand() {
-
     if(!canStand) {
         return;
     }
@@ -247,7 +244,6 @@ function playAgain() {
     clearCards(yourCards);
     document.getElementById('hidden-front').remove();
  
-
     // clear scores sums and result message
     document.getElementById('dealer-sum').innerText = '';
     document.getElementById('player-sum').innerText = '';
@@ -262,7 +258,6 @@ function playAgain() {
     // enable canHit and canStand buttons
     canHit = true;
     canStand = true;
-
 
     // hide play-again button
     document.getElementById('play-again').style.display = 'none';

@@ -9,3 +9,4 @@ I used this tutorial for the basis of this project and then continued to add new
 - 'Play Again' Button
 - Natural Blackjack Check
 - Dealer's Hidden Card Flip Animation
+- Disable 'Stand' Button 
